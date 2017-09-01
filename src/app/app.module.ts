@@ -18,6 +18,8 @@ import { FooterComponent } from './footer/footer.component';
 import { AboutComponent } from './about/about.component';
 import { HomeComponent } from './home/home.component';
 import { ContactComponent } from './contact/contact.component';
+import { LoginComponent } from './login/login.component';
+import { FormsModule } from '@angular/forms'; 
 
 @NgModule({
   declarations: [
@@ -28,17 +30,22 @@ import { ContactComponent } from './contact/contact.component';
     FooterComponent,
     AboutComponent,
     HomeComponent,
-    ContactComponent
+    ContactComponent,
+    LoginComponent
+  ],
+  entryComponents: [
+    LoginComponent
   ],
   imports: [
-      BrowserModule,
-      MaterialModule,
-      FlexLayoutModule,
-      AppRoutingModule
+    BrowserModule,
+    MaterialModule,
+    FlexLayoutModule,
+    AppRoutingModule,
+    FormsModule 
   ],
   providers: [DishService,
-  PromotionService,
-  LeaderService],
+    PromotionService,
+    LeaderService],
   bootstrap: [AppComponent]
 })
 export class AppModule { }
