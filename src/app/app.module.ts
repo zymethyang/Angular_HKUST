@@ -41,6 +41,7 @@ import { FormsModule } from '@angular/forms';
     MaterialModule,
     FlexLayoutModule,
     AppRoutingModule,
+    BrowserAnimationsModule,
     FormsModule 
   ],
   providers: [DishService,
