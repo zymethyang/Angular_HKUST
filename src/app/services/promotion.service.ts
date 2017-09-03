@@ -6,9 +6,16 @@ import { PROMOTIONS } from '../shared/promotions';
 export class PromotionService {
 
   constructor() { }
-
+  /*getDishes(): Promise<Dish[]> {
+    return new Promise(resolve=> {
+      // Simulate server latency with 2 second delay
+        setTimeout(() => resolve(DISHES), 2000);
+    });
+  }*/
   getPromotions(): Promise<Promotion[]> {
-    return Promise.resolve(PROMOTIONS);
+    return new Promise(resolve=> {
+        setTimeout(() => resolve(PROMOTIONS),2000)
+    });
   }
 
   getPromotion(id: number): Promise<Promotion> {
@@ -16,6 +23,8 @@ export class PromotionService {
   }
 
   getFeaturedPromotion(): Promise<Promotion> {
-    return Promise.resolve(PROMOTIONS.filter((promotion) => promotion.featured)[0]);
+    return new Promise(resolve => {
+      setTimeout(()=> resolve(PROMOTIONS.filter((promotion) => promotion.featured)[0]),2000)
+    });
   }
 }
