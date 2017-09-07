@@ -1,10 +1,5 @@
-<div class="container"
-     fxLayout="row"
-     fxLayout.sm="column"
-     fxLayout.xs="column"
-     fxLayoutAlign.gt-md="space-around center"
-     fxLayoutGap="10px"
-     fxLayoutGap.xs="0">
+<div class="container" fxLayout="row" fxLayout.sm="column" fxLayout.xs="column" fxLayoutAlign.gt-md="space-around center"
+  fxLayoutGap="10px" fxLayoutGap.xs="0">
   <div fxFlex="40">
     <div fxFlex *ngIf="dish">
       <md-card>
@@ -27,17 +22,13 @@
       </md-card>
     </div>
   </div>
-  <div fxFlex="40">
+  <div fxFlex="40" *ngFor="let comments DISH.comments">
     <md-list fxFlex>
-      <md-list-item *ngIf="dish">
-        <md-list>
-          <h3>Comments</h3> 
-          <md-list-item> {{dish.comments[0].comment}} <br>{{dish.comments[0].rating}} Stars <br> -- {{dish.comments[0].author}} {{dish.comments[0].date|date}} </md-list-item><br><br>
-          <md-list-item> {{dish.comments[1].comment}} <br>{{dish.comments[1].rating}} Stars <br> -- {{dish.comments[1].author}} {{dish.comments[1].date|date}} </md-list-item><br><br>
-          <md-list-item> {{dish.comments[2].comment}} <br>{{dish.comments[2].rating}} Stars <br> -- {{dish.comments[2].author}} {{dish.comments[2].date|date}} </md-list-item><br><br>
-          <md-list-item> {{dish.comments[3].comment}} <br>{{dish.comments[3].rating}} Stars <br> -- {{dish.comments[3].author}} {{dish.comments[3].date|date}} </md-list-item><br><br>
-          <md-list-item> {{dish.comments[4].comment}} <br>{{dish.comments[4].rating}} Stars <br> -- {{dish.comments[4].author}} {{dish.comments[4].date|date}} </md-list-item><br><br>
-        </md-list>
+      <h3>Comments</h3>
+      <md-list-item>
+        <p md-line>{{comments.comment}}</p>
+        <p md-line>{{comments.rating}} Stars </p>
+        <p md-line>-- {{comments.author}} {{comments.date|date}}</p>
       </md-list-item>
     </md-list>
   </div>
