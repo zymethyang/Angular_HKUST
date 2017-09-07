@@ -5,9 +5,13 @@ import { Leader } from '../shared/leader';
 export class LeaderService {
   constructor() { }
   getLeader(): Promise<Leader> {
-    return Promise.resolve(LEADERS.filter((leader) => leader)[3]);
+    return new Promise(resolve => {
+      setTimeout(() => (LEADERS.filter((leader) => leader)[3]), 2000);
+    });
   }
-  getLeaders():Promise<Leader[]>{
-    return Promise.resolve(LEADERS);
+  getLeaders(): Promise<Leader[]> {
+    return new Promise(resolve => {
+      setTimeout(() => (LEADERS), 2000);
+    });
   }
 }
