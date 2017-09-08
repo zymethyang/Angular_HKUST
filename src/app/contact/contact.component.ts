@@ -7,6 +7,7 @@ import { Feedback, ContactType } from '../shared/feedback';
   templateUrl: './contact.component.html',
   styleUrls: ['./contact.component.scss']
 })
+
 export class ContactComponent implements OnInit {
 
   feedbackForm: FormGroup;
@@ -39,6 +40,7 @@ export class ContactComponent implements OnInit {
       'email': 'Email not in valid format.'
     },
   };
+
   constructor(private fb: FormBuilder) {
     this.createForm();
     this.feedbackForm = this.fb.group({
@@ -67,7 +69,6 @@ export class ContactComponent implements OnInit {
     });
     this.feedbackForm.valueChanges
       .subscribe(data => this.onValueChanged(data));
-
     this.onValueChanged(); // (re)set validation messages now
   }
   onValueChanged(data?: any) {

@@ -5,6 +5,9 @@ import { Location } from '@angular/common';
 import { DatePipe } from '@angular/common';
 import 'rxjs/add/operator/switchMap';
 import { DishService } from '../services/dish.service';
+import { FormBuilder, FormGroup, Validators } from '@angular/forms';
+import { Rating, FormType } from '../shared/rating';
+import { Comment } from '../shared/comment';
 
 const DISH = {
     name: 'Uthappizza',
@@ -57,11 +60,73 @@ export class DishdetailComponent implements OnInit {
     prev: number;
     next: number;
     dish: Dish;
+    ratingForm: FormGroup;
+    rating: Rating;
+    formErrors = {
+        'author': '',
+        'rating': '',
+        'comment': ''
+    };
 
     constructor(private dishservice: DishService,
         private route: ActivatedRoute,
-        private location: Location) { }
+        private location: Location,
+        private fb: FormBuilder) {
+        this.createForm();
+    }
 
+    createForm(): void {
+        this.ratingForm = this.fb.group({
+            author: ['', [Validators.required, Validators.minLength(2), Validators.maxLength(25)]],
+            rating: [5, Validators.required],
+            comment: ['', Validators.required],
+            date: ''
+        });
+        this.ratingForm.valueChanges
+            .subscribe(data => this.onValueChanged(data));
+        this.onValueChanged(); // (re)set validation messages now
+    }
+    onValueChanged(data?: any) {
+        if (!this.ratingForm) { return; }
+        const form = this.ratingForm;
+        for (const field in this.formErrors) {
+            // clear previous error message (if any)
+            this.formErrors[field] = '';
+            const control = form.get(field);
+            if (control && control.dirty && !control.valid) {
+                const messages = this.validationMessages[field];
+                for (const key in control.errors) {
+                    this.formErrors[field] += messages[key] + ' ';
+                }
+            }
+        }
+    }
+    validationMessages = {
+        'author': {
+          'required': 'Name is required.',
+          'minlength': 'Name must be at least 2 characters long.',
+          'maxlength': 'Name cannot be more than 25 characters long.'
+        },
+        'rating': {
+          'required': 'Rating is required.',
+          'pattern': 'Rating must contain only numbers.'
+        },
+        'comment': {
+            'required': 'Comment is required.',
+            'minlength': 'Name must be at least 2 characters long.'
+          },
+      };
+      onSubmit() {
+        this.rating = this.ratingForm.value;
+        this.rating.date = new Date().toISOString();
+        console.log(this.rating);
+        this.ratingForm.reset({
+          author: '',
+          rating: 5,
+          comment: '',
+        });
+        this.dish.comments.push(this.rating);
+      }
     ngOnInit() {
 
         this.dishservice.getDishIds().subscribe(dishIds => this.dishIds = dishIds);
