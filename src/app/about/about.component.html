@@ -68,6 +68,13 @@ fxLayoutGap="10px">
             <span> {{leader.description}} </span>
           </p>
         </md-list-item>
+        <div [hidden]="leader || errMess">
+          <md-spinner></md-spinner><h4>Loading . . . Please Wait</h4>
+        </div>
+        <div *ngIf="errMess">
+          <h2>Error</h2>
+          <h4>{{errMess}}</h4>
+        </div>
       </md-list>
      </p>
   </div>

@@ -1,6 +1,12 @@
 <div class="container" fxLayout="row" fxLayout.sm="column" fxLayout.xs="column" fxLayoutAlign.gt-md="space-around center"
     fxLayoutGap="10px">
-
+    <div [hidden]="dish || errMess">
+        <md-spinner></md-spinner><h4>Loading . . . Please Wait</h4>
+      </div>
+      <div *ngIf="errMess">
+        <h2>Error</h2>
+        <h4>{{errMess}}</h4>
+      </div>
     <md-card *ngIf="dish" fxFlex>
         <md-card-header>
             <div md-card-avatar></div>
@@ -14,7 +20,7 @@
             </p>
         </md-card-content>
     </md-card>
-
+    
     <md-card *ngFor="let promotion of promotion" fxFlex>
         <md-card-header>
             <div md-card-avatar></div>

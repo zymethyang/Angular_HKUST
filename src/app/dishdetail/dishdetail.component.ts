@@ -60,8 +60,10 @@ export class DishdetailComponent implements OnInit {
     prev: number;
     next: number;
     dish: Dish;
+    errMess: string;
     ratingForm: FormGroup;
     rating: Rating;
+
     formErrors = {
         'author': '',
         'rating': '',
@@ -130,10 +132,10 @@ export class DishdetailComponent implements OnInit {
       }
     ngOnInit() {
 
-        this.dishservice.getDishIds().subscribe(dishIds => this.dishIds = dishIds);
+        this.dishservice.getDishIds().subscribe(dishIds => this.dishIds = dishIds,errmess => this.errMess = <any>errmess);
         this.route.params
             .switchMap((params: Params) => this.dishservice.getDish(+params['id']))
-            .subscribe(dish => { this.dish = dish; this.setPrevNext(dish.id); });
+            .subscribe(dish => { this.dish = dish,errmess => this.errMess = <any>errmess; this.setPrevNext(dish.id); });
     }
 
     setPrevNext(dishId: number) {

@@ -16,11 +16,13 @@ export class LeaderService {
 
   getLeaders(): Observable<Leader[]> {
     return this.http.get(baseURL+'leaders')
-    .map(res => {return this.processHTTPMsgService.extractData(res);});
+    .map(res => {return this.processHTTPMsgService.extractData(res);})
+    .catch(error => { return this.processHTTPMsgService.handleError(error); });;
   }
   getLeader(): Observable<Leader> {
     return this.http.get(baseURL+'leaders?featured=true')
-    .map(res => {return this.processHTTPMsgService.extractData(res);});
+    .map(res => {return this.processHTTPMsgService.extractData(res);})
+    .catch(error => { return this.processHTTPMsgService.handleError(error); });;
   }
 
 }

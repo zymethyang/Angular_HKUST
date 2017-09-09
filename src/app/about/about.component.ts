@@ -9,6 +9,7 @@ import { Leader } from '../shared/leader';
 })
 export class AboutComponent implements OnInit {
   leader:Leader[];
+  errMess:string;
   constructor(private leaderservice: LeaderService,
     @Inject('BaseURL') private BaseURL) { }
 
@@ -17,7 +18,7 @@ export class AboutComponent implements OnInit {
 
   ngOnInit() {
     this.leaderservice.getLeaders()
-      .subscribe(leader => this.leader = leader);
+      .subscribe(leader => this.leader = leader,errmess => this.errMess = <any>errmess);
   }
 
 }
