@@ -20,6 +20,8 @@ import { HomeComponent } from './home/home.component';
 import { ContactComponent } from './contact/contact.component';
 import { LoginComponent } from './login/login.component';
 import { FormsModule } from '@angular/forms'; 
+import { ProcessHTTPMsgService } from './services/process-httpmsg.service';
+
 
 @NgModule({
   declarations: [
@@ -46,7 +48,7 @@ import { FormsModule } from '@angular/forms';
     FormsModule 
   ],
   providers: [DishService,
-    PromotionService,
+    PromotionService,ProcessHTTPMsgService,
     LeaderService],
   bootstrap: [AppComponent]
 })
