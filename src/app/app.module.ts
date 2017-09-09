@@ -23,6 +23,7 @@ import { FormsModule } from '@angular/forms';
 import { ReactiveFormsModule } from '@angular/forms';
 import { HttpModule } from '@angular/http';
 import { baseURL } from './shared/baseurl';
+import { ProcessHTTPMsgService } from './services/process-httpmsg.service';
 
 @NgModule({
   declarations: [
@@ -51,6 +52,7 @@ import { baseURL } from './shared/baseurl';
   ],
   providers: [DishService,
     PromotionService,
+    ProcessHTTPMsgService,
     LeaderService,
     {provide: 'BaseURL', useValue: baseURL}
   ],
