@@ -63,7 +63,7 @@ export class DishdetailComponent implements OnInit {
     errMess: string;
     ratingForm: FormGroup;
     rating: Rating;
-
+    dishcopy = null;
     formErrors = {
         'author': '',
         'rating': '',
@@ -129,13 +129,15 @@ export class DishdetailComponent implements OnInit {
           comment: '',
         });
         this.dish.comments.push(this.rating);
+        this.dishcopy.save()
+          .subscribe(dish => { this.dish = dish; console.log(this.dish); });
       }
     ngOnInit() {
 
         this.dishservice.getDishIds().subscribe(dishIds => this.dishIds = dishIds,errmess => this.errMess = <any>errmess);
         this.route.params
             .switchMap((params: Params) => this.dishservice.getDish(+params['id']))
-            .subscribe(dish => { this.dish = dish,errmess => this.errMess = <any>errmess; this.setPrevNext(dish.id); });
+            .subscribe(dish => { this.dish = dish,errmess => this.errMess = <any>errmess;this.dishcopy = dish; this.setPrevNext(dish.id); });
     }
 
     setPrevNext(dishId: number) {
