@@ -8,7 +8,7 @@ import { DishService } from '../services/dish.service';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { Rating, FormType } from '../shared/rating';
 import { Comment } from '../shared/comment';
-
+import { trigger, state, style, animate, transition } from '@angular/animations';
 const DISH = {
     name: 'Uthappizza',
     image: '/assets/images/uthappizza.png',
@@ -53,7 +53,20 @@ const DISH = {
 @Component({
     selector: 'app-dishdetail',
     templateUrl: './dishdetail.component.html',
-    styleUrls: ['./dishdetail.component.scss']
+    styleUrls: ['./dishdetail.component.scss'],
+    animations: [
+        trigger('visibility', [
+            state('shown', style({
+                transform: 'scale(1.0)',
+                opacity: 1
+            })),
+            state('hidden', style({
+                transform: 'scale(0.5)',
+                opacity: 0
+            })),
+            transition('* => *', animate('0.5s ease-in-out'))
+        ])
+    ]
 })
 export class DishdetailComponent implements OnInit {
     dishIds: number[];
@@ -64,6 +77,7 @@ export class DishdetailComponent implements OnInit {
     ratingForm: FormGroup;
     rating: Rating;
     dishcopy = null;
+    visibility = 'shown';
     formErrors = {
         'author': '',
         'rating': '',
@@ -106,38 +120,39 @@ export class DishdetailComponent implements OnInit {
     }
     validationMessages = {
         'author': {
-          'required': 'Name is required.',
-          'minlength': 'Name must be at least 2 characters long.',
-          'maxlength': 'Name cannot be more than 25 characters long.'
+            'required': 'Name is required.',
+            'minlength': 'Name must be at least 2 characters long.',
+            'maxlength': 'Name cannot be more than 25 characters long.'
         },
         'rating': {
-          'required': 'Rating is required.',
-          'pattern': 'Rating must contain only numbers.'
+            'required': 'Rating is required.',
+            'pattern': 'Rating must contain only numbers.'
         },
         'comment': {
             'required': 'Comment is required.',
             'minlength': 'Name must be at least 2 characters long.'
-          },
-      };
-      onSubmit() {
+        },
+    };
+    onSubmit() {
         this.rating = this.ratingForm.value;
         this.rating.date = new Date().toISOString();
         console.log(this.rating);
         this.ratingForm.reset({
-          author: '',
-          rating: 5,
-          comment: '',
+            author: '',
+            rating: 5,
+            comment: '',
         });
         this.dish.comments.push(this.rating);
         this.dishcopy.save()
-          .subscribe(dish => { this.dish = dish; console.log(this.dish); });
-      }
+            .subscribe(dish => { this.dish = dish; console.log(this.dish); });
+    }
     ngOnInit() {
 
-        this.dishservice.getDishIds().subscribe(dishIds => this.dishIds = dishIds,errmess => this.errMess = <any>errmess);
+        this.dishservice.getDishIds().subscribe(dishIds => this.dishIds = dishIds, errmess => this.errMess = <any>errmess);
         this.route.params
-            .switchMap((params: Params) => this.dishservice.getDish(+params['id']))
-            .subscribe(dish => { this.dish = dish,errmess => this.errMess = <any>errmess;this.dishcopy = dish; this.setPrevNext(dish.id); });
+        .switchMap((params: Params) => { this.visibility = 'hidden'; return this.dishservice.getDish(+params['id']); })
+        .subscribe(dish => { this.dish = dish; this.dishcopy = dish; this.setPrevNext(dish.id); this.visibility = 'shown'; },
+            errmess => { this.dish = null; this.errMess = <any>errmess; });
     }
 
     setPrevNext(dishId: number) {

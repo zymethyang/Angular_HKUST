@@ -1,7 +1,7 @@
 <div class="container" fxLayout="row" fxLayout.sm="column" fxLayout.xs="column" fxLayoutAlign.gt-md="space-around center"
   fxLayoutGap="10px" fxLayoutGap.xs="0">
   <div fxFlex="40">
-    <div fxFlex *ngIf="dish">
+    <div fxFlex *ngIf="dish" [@visibility]="visibility">
       <md-card>
         <md-card-header>
           <md-card-title>
@@ -25,7 +25,7 @@
       </md-card>
     </div>
   </div>
-  <div fxFlex="40" *ngIf="dish">
+  <div fxFlex="40" *ngIf="dish" [@visibility]="visibility">
     <md-list fxFlex>
       <h2 md-line>Comments</h2>
       <md-list-item *ngFor="let comment of dish.comments">
