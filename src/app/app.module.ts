@@ -19,11 +19,13 @@ import { AboutComponent } from './about/about.component';
 import { HomeComponent } from './home/home.component';
 import { ContactComponent } from './contact/contact.component';
 import { LoginComponent } from './login/login.component';
-import { FormsModule } from '@angular/forms'; 
+import { FormsModule } from '@angular/forms';
 import { ReactiveFormsModule } from '@angular/forms';
 import { HttpModule } from '@angular/http';
 import { baseURL } from './shared/baseurl';
 import { ProcessHTTPMsgService } from './services/process-httpmsg.service';
+import { RestangularModule, Restangular } from 'ngx-restangular';
+import { RestangularConfigFactory } from './shared/restConfig';
 
 @NgModule({
   declarations: [
@@ -48,13 +50,14 @@ import { ProcessHTTPMsgService } from './services/process-httpmsg.service';
     FormsModule,
     BrowserAnimationsModule,
     ReactiveFormsModule,
-    HttpModule 
+    HttpModule,
+    RestangularModule.forRoot(RestangularConfigFactory)
   ],
   providers: [DishService,
     PromotionService,
     ProcessHTTPMsgService,
     LeaderService,
-    {provide: 'BaseURL', useValue: baseURL}
+    { provide: 'BaseURL', useValue: baseURL }
   ],
   bootstrap: [AppComponent]
 })
