@@ -1,11 +1,23 @@
 import { Component, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
-
+import { flyInOut, expand } from '../animations/app.animation';
 import { Feedback, ContactType } from '../shared/feedback';
+import { Location } from '@angular/common';
+import { DatePipe } from '@angular/common';
+import { FeedbackService } from '../services/feedback.service';
+
 @Component({
   selector: 'app-contact',
   templateUrl: './contact.component.html',
-  styleUrls: ['./contact.component.scss']
+  styleUrls: ['./contact.component.scss'],
+  host: {
+    '[@flyInOut]': 'true',
+    'style': 'display: block;'
+  },
+  animations: [
+    flyInOut(),
+    expand(),
+  ]
 })
 
 export class ContactComponent implements OnInit {
@@ -13,6 +25,8 @@ export class ContactComponent implements OnInit {
   feedbackForm: FormGroup;
   feedback: Feedback;
   contactType = ContactType;
+  mySubmit: Boolean = false;
+  myShowForm: Boolean = true;
   formErrors = {
     'firstname': '',
     'lastname': '',
@@ -41,7 +55,8 @@ export class ContactComponent implements OnInit {
     },
   };
 
-  constructor(private fb: FormBuilder) {
+  constructor(private feedbackService: FeedbackService,
+    private fb: FormBuilder) {
     this.createForm();
     this.feedbackForm = this.fb.group({
       firstname: ['', [Validators.required, Validators.minLength(2), Validators.maxLength(25)]],
@@ -57,7 +72,7 @@ export class ContactComponent implements OnInit {
   ngOnInit() {
   }
 
-  createForm():void {
+  createForm(): void {
     this.feedbackForm = this.fb.group({
       firstname: ['', Validators.required],
       lastname: ['', Validators.required],
@@ -86,18 +101,17 @@ export class ContactComponent implements OnInit {
       }
     }
   }
-  onSubmit() {
+  submitFeedback() {
+    this.mySubmit = true;
+    this.myShowForm = false;
+
     this.feedback = this.feedbackForm.value;
     console.log(this.feedback);
-    this.feedbackForm.reset({
-      firstname: '',
-      lastname: '',
-      telnum: '',
-      email: '',
-      agree: false,
-      contacttype: 'None',
-      message: ''
-    });
+ 
+    this.feedbackService.submitFeedback(this.feedback)
+      .subscribe((Response) => {
+        console.log(Response);
+        this.mySubmit = false;
+      });
   }
-
 }
